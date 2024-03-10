@@ -36,11 +36,13 @@ The blue dot is the goal index.
 The black line is the final path.
 The white portion in the animation is the visited list. It does not grow from the starting point, it just starts all over.
 
+6. There are 2 text files. Visted.txt is the list containing all the visited nodes. Path.txt contains the coordinates of the path. In the files, i have the path for the start and goal config as mentioned in step 1.
+
 Libraries used:
 
-pygame
-heapq 
-numpy
-datetime
-sys 
+1.pygame
+2.heapq 
+3.numpy
+4.datetime
+5.sys 
 
