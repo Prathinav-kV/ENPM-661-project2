@@ -6,6 +6,8 @@ Prathinav, Karnala Venkata
 120380983
 pratkv
 
+github link: https://github.com/Prathinav-kV/ENPM-661-project2
+
 Code execution:
 
 1. When running the code, it will ask you for the start and goal coordinates.
