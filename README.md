@@ -8,6 +8,8 @@ pratkv
 
 github link: https://github.com/Prathinav-kV/ENPM-661-project2
 
+YouTube link: https://youtu.be/azWT5-C05Is
+
 Code execution:
 
 1. When running the code, it will ask you for the start and goal coordinates.
