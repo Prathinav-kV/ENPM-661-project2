@@ -163,3 +163,86 @@ for i in visited:
     g.write("\n")
 
 g.close()
+
+
+
+
+
+ready = input(" READY FOR THE ANIMATION ( PRESS Y )")
+
+
+# ANIMATION SECTION OF THE CODE
+
+# Initialize Pygame
+pygame.init()
+
+# Define colors
+pastel_background = (230, 230, 250)  # Pastel background color
+dark_pastel_background = (200, 200, 220)  # Darker pastel background color
+red = (255, 0, 0)
+black = (0, 0, 0)
+blue = (0,0,255)
+white = (255,255,255)
+
+# Set canvas dimensions
+canvas_width = 1200
+canvas_height = 500
+
+# Create the canvas
+canvas = pygame.display.set_mode((canvas_width, canvas_height))
+pygame.display.set_caption("Canvas with Shapes")
+
+# Define rectangle properties
+rect_width = 75
+rect_height = 400
+rect1 = pygame.Rect(100, 0, rect_width, rect_height)
+rect2 = pygame.Rect(275, 100, rect_width, rect_height)
+rect3 = pygame.Rect(900, 50, 200, 75)
+rect4 = pygame.Rect(1020, 125, 80, 250)
+rect5 = pygame.Rect(900, 375, 200, 75)
+
+# Main loop
+running = True
+clock = pygame.time.Clock()  # Initialize the clock
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Fill the canvas with pastel background color
+    canvas.fill(pastel_background)
+
+    # Draw rectangles
+    pygame.draw.rect(canvas, dark_pastel_background, rect1)
+    pygame.draw.rect(canvas, dark_pastel_background, rect2)
+    pygame.draw.rect(canvas, dark_pastel_background, rect3)
+    pygame.draw.rect(canvas, dark_pastel_background, rect4)
+    pygame.draw.rect(canvas, dark_pastel_background, rect5)
+
+    # Draw hexagon
+    pygame.draw.polygon(canvas, dark_pastel_background, [(650, 100), (520, 175), (520, 325), (650, 400), (780, 325), (780, 175)])
+
+    # Draw points
+    pygame.draw.circle(canvas, red, (start_x, 500 - start_y), 1)
+    pygame.draw.circle(canvas, blue, (goal_x, 500 - goal_y), 1)
+    pygame.display.flip()
+
+    for i in visited:
+        pygame.draw.circle(canvas, white, (int(i[1]), int(500 - i[2])), 1)
+        pygame.draw.circle(canvas, red, (start_x, 500 - start_y), 1)
+        pygame.display.flip()
+
+    for i in range(len(path_xrev)):
+        pygame.draw.circle(canvas, black, (int(path_xrev[i]), int(500 - path_yrev[i])), 1)
+        pygame.display.flip()
+        pygame.time.delay(10)
+
+    # Update the display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    clock.tick(1)  # Adjust the frame rate as needed
+
+# Quit Pygame
+pygame.quit()
+sys.exit()
