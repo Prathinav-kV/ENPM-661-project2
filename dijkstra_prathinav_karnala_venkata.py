@@ -67,3 +67,99 @@ def move(c,x,y): # I pass the cost values of the current node along with the coo
             moved.add((new_c,new_x,new_y))
     return moved
 
+
+
+
+# Defining the variables
+
+visited = set() # visited list
+q = []      # the open queue
+c = 0       # counter for the nodes
+p = -1      # prev index for the starting node
+cost = 0.0      # starting cost value
+vc = 0          # visited list counter
+goal_index = 0  # variable to check the goal index
+start_element = (cost,c,p,start_x,start_y) # starting point added as an element to the heapq in the format : cost, node index, prev node, x, y coordinate
+goal = (goal_x,goal_y)
+start = (start_x,start_y)
+
+hq.heappush(q, start_element)
+hq.heapify(q)       # creating the heapq
+
+graph = np.matrix([start_element]) # adding the starting element to the graph which is a numpy matrix 
+
+start_time = datetime.now()  # start time 
+while q:
+    
+    point = hq.heappop(q)
+    
+    if (point[3]==goal_x) and (point[4]==goal_y):  # checking if the start node is the goal node ( not possible but left that there )
+        break
+    
+    c_c = point[0]      # current cost of the popped element
+    neighbors = move(c_c,point[3],point[4])  # getting all the neighboring elements
+    
+    for n in neighbors:
+        i = np.where((graph[:, 3] == n[1]) & (graph[:, 4] == n[2]))[0]
+        if i.size > 0:
+            if n[0] < graph[i,0]:  # checking if cost is lesser than current cost
+                graph[i,0] = n[0]   # updating cost if it is lesser than known cost
+                if point[1] == -1: # updating the prev node in the graph
+                    graph[i,2] = point[1] + 1  #starting node has prev value of -1
+                else:
+                    graph[i,2] = point[1]
+        else:   # in case the node does not exist in the graph, add it to the graph as a new node
+            c += 1
+            temp = (n[0],c,point[1],n[1],n[2])
+            graph = np.vstack((graph,temp)) # vertically stacking the new node to the graph
+            hq.heappush(q,temp)     # adding the element to the heapq
+            
+    visited.add((vc,point[3],point[4]))  # adding the node to the visited list and updating the visited counter
+    vc += 1
+    
+    goal_index = np.where((graph[:, 3] == goal_x) & (graph[:, 4] == goal_y))[0]  # checking if the goal node is present in the graph
+    if goal_index.size > 0:
+        break
+
+end_time = datetime.now()
+time_taken = end_time - start_time      # calculating the time taken to complete the search
+
+# Print the time taken
+print("Time taken:", time_taken)
+
+
+path_x = np.array([graph[goal_index,3]])    # storing the x coordinate of the goal node
+path_y = np.array([graph[goal_index,4]])    # storing the y coordinate of the goal node
+
+path_ind = int(graph[goal_index,2])         # taking the path ind which notes the prev node of the node in the graph
+
+while path_ind != -1:               # setting the condition where the prev node index reaches that of the starting node
+    
+    x = graph[path_ind,3]
+    y = graph[path_ind,4]
+    
+    path_x = np.append(path_x,x)
+    path_y = np.append(path_y,y)
+    
+    path_ind = int(graph[path_ind,2])
+    
+# Reversing the path coordinates
+path_xrev = path_x[::-1]
+path_yrev = path_y[::-1]
+
+# storing the path coordinates and the visited list in  .txt files, to visulaize without running the code again
+
+f = open("Path.txt","w")
+for i in range(len(path_xrev)):
+    f.write(f"{path_xrev[i]} {path_yrev[i]}")
+    f.write("\n")
+
+f.close()
+
+g = open("Visted.txt","w")
+for i in visited:
+    for j in i:
+        g.write(f"{j} ")
+    g.write("\n")
+
+g.close()
