@@ -37,4 +37,33 @@ def valid_point(x,y): # this function is used to check if the point is in the ob
         # print(" Outside box ")
         return False
         
-    return True
+    # return True
+
+
+# taking the Start and Goal coordinates.
+
+start_x = int(input("Enter the starting coordinate x: "))
+start_y = int(input("Enter the starting coordinate y: "))
+while not (valid_point(start_x,start_y)):
+    print("Please try another starting point not in the object area")
+    start_x = int(input("Enter the starting coordinate x: "))
+    start_y = int(input("Enter the starting coordinate y: "))
+    
+goal_x = int(input("Enter the goal coordinate x: "))
+goal_y = int(input("Enter the goal coordinate y: "))
+while not (valid_point(goal_x,goal_y)) or ((goal_x == start_x)and(goal_y==start_y)):
+    print("Please try another goal point not equal to start point and not in the object area")
+    goal_x = int(input("Enter the goal coordinate x: "))
+    goal_y = int(input("Enter the goal coordinate y: "))  
+
+# This function moves the points and checks if the moves are valid or not using the valid_point() function defined above
+def move(c,x,y): # I pass the cost values of the current node along with the coordinates to calculate the new cost of the neighboring nodes
+    moves= {(1,0,-1),(1,0,1),(1,1,0),(1,-1,0),(1.4,-1,-1),(1.4,1,-1),(1.4,-1,1),(1.4,1,1)} # here I have attached the cost values to the moves
+    moved = set()
+    for i in moves:
+        new_c,new_x,new_y = c+i[0],x+i[1],y+i[2]
+        flag = valid_point(new_x,new_y)
+        if flag:
+            moved.add((new_c,new_x,new_y))
+    return moved
+
